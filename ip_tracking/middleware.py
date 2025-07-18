@@ -7,15 +7,14 @@ class IPLoggingMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Extract IP
+
         ip, _ = get_client_ip(request)
-        # Log request
+
         if ip:
             RequestLog.objects.create(
                 ip_address=ip,
                 timestamp=now(),
                 path=request.path
             )
-        # Continue processing
         response = self.get_response(request)
         return response
