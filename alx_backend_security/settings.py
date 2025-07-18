@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ip_tracking',
     'ratelimit',
 ]
+INSTALLED_APPS += ['django_celery_beat']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,7 +52,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'ip_tracking.middleware.IPLoggingMiddleware',
 ]
-
 
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
