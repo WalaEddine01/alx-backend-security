@@ -7,14 +7,18 @@ class IPLoggingMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-
         ip, _ = get_client_ip(request)
 
         if ip:
+            # Check if IP is blacklisted
+            if BlockedIP.objects.filter(ip_address=ip).exists():
+                return HttpResponseForbidden("Forbidden: Your IP is blocked.")
+
+            # Log request
             RequestLog.objects.create(
                 ip_address=ip,
                 timestamp=now(),
                 path=request.path
             )
-        response = self.get_response(request)
-        return response
+
+        return self.get_response(request)
